@@ -1,14 +1,21 @@
-import { useState } from "react"
+import { useState, useContext, useEffect } from "react"
+import FeedbackContext from "../context/FeedbackContext";
 
 function Rating({select}){
-  const [selected, setSelected] = useState(10)
+  const [selected, setSelected] = useState()
+
+  const {editFB} = useContext(FeedbackContext);
+
+  useEffect(() => {
+    setSelected(editFB.item.rating);
+  },[editFB]);
  
-  const handleChange = (num) => () => {
-    setSelected(num)
-    select(num)
+  const handleChange = (num) => () =>{
+    setSelected(num);
+    select(num);
   }
  
-  return (
+  return(
     <ul className='rating'>
       {Array.from({ length: 10 }, (_, i) => i + 1).map((num) => (
         <li key={num}>
@@ -25,4 +32,4 @@ function Rating({select}){
     </ul>
   )
 }
-export default Rating
+export default Rating;

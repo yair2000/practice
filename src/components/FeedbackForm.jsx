@@ -1,13 +1,24 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import Card from "./shared/Card";
 import Button from "./shared/Button";
 import Rating from "./Rating";
+import FeedbackContext from "../context/FeedbackContext";
 
-function FeedbackForm({handleAdd}){
+function FeedbackForm(){
   const [text, setText] = useState("");
-  const [rating, setRating] = useState(10);
+  const [rating, setRating] = useState();
   const [btnStat, setBtnStat] = useState(true);
   const [msg, setMsg] = useState("");
+
+  const {addFeedback, editFB, updateFeedback} = useContext(FeedbackContext);
+
+  useEffect(() =>{
+    if(editFB.edit === true){
+      setBtnStat(false);
+      setText(editFB.item.text);
+      setRating(editFB.item.rating);
+    }
+  }, [editFB])
 
   const handleText = ({ target: { value } }) =>{
     if(value === ""){
@@ -32,7 +43,13 @@ function FeedbackForm({handleAdd}){
         text,
         rating
       }
-      handleAdd(newFeedback);
+      
+      if(editFB.edit === true){
+        updateFeedback(editFB.item.id, newFeedback);
+      }
+      else{
+        addFeedback(newFeedback);
+      }
       setText("");
     }
   }
@@ -55,4 +72,4 @@ function FeedbackForm({handleAdd}){
     </Card>
   )
 }
-export default FeedbackForm
+export default FeedbackForm;
