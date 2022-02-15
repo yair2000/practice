@@ -15,7 +15,7 @@ export const FeedbackProvider = ({children}) =>{
 
   
   const fetchFeedback = async () =>{
-    const response = await fetch("http://localhost:5000/feedback?_sort=rating")
+    const response = await fetch("/feedback?_sort=id&_order=desc")
     const data = await response.json();
 
     setFeedback(data);
@@ -24,7 +24,7 @@ export const FeedbackProvider = ({children}) =>{
 
   // Create/Read
   const addFeedback = async (newFeedback) => {
-    const response = await fetch('http://localhost:5000/feedback', {
+    const response = await fetch('/feedback', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ export const FeedbackProvider = ({children}) =>{
 
   // Update
   const updateFeedback = async (id, updatedItem) =>{
-    const response = await fetch(`http://localhost:5000/feedback/${id}`,{
+    const response = await fetch(`/feedback/${id}`,{
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
